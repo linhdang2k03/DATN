@@ -1,0 +1,22 @@
+
+/* category-list.component.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 20px;
+  border-radius: 1rem;
+  width: 400px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}

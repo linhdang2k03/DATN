@@ -1,0 +1,82 @@
+<div *ngIf="userDetail" class="container py-4">
+  <!-- Profile Header -->
+  <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-center gap-4">
+      <div class="rounded-circle overflow-hidden border" style="width: 120px; height: 120px;">
+        <img src="assets/img/avatar.png" class="w-100 h-100 object-fit-cover" alt="User Avatar">
+      </div>
+      <div class="flex-grow-1">
+        <h4 class="fw-bold mb-1">{{ userDetail.userName }}</h4>
+        <p class="mb-1 text-muted">{{ userDetail.email }}</p>
+        <span class="badge badge-rank">Member Tier: Bronze</span>
+      </div>
+      <div>
+        <button class="btn btn-primary" (click)="goToUpdate()">Update</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Basic Info -->
+  <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <h5 class="fw-bold mb-3">Account Information</h5>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Phone Number</label>
+        <input class="form-control" [(ngModel)]="userDetail.phoneNumber" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Date of Birth</label>
+        <input class="form-control" [(ngModel)]="userDetail.birthDate" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Gender</label>
+        <input class="form-control" [(ngModel)]="userDetail.gender" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Address</label>
+        <input class="form-control" [(ngModel)]="userDetail.address" disabled>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6 class="text-muted">Orders Placed</h6>
+        <h4 class="text-primary">12</h4>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6 class="text-muted">Total Spending</h6>
+        <h4 class="text-success">$190.00</h4>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h6 class="text-muted">Available Vouchers</h6>
+        <h4 class="text-warning">3</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Order -->
+  <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <h5 class="fw-bold mb-3">Recent Order</h5>
+    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+      <div>
+        <strong>#ORDER3355</strong>
+        <div class="text-muted small">Order Date: 06/02/2025</div>
+      </div>
+      <div>
+        <span class="badge bg-info text-dark">In Transit</span>
+      </div>
+      <div class="fw-bold text-danger">$14.00</div>
+    </div>
+    <div class="text-end mt-2">
+      <a href="#" class="text-decoration-none small">View All Orders</a>
+    </div>
+  </div>
+
+</div>

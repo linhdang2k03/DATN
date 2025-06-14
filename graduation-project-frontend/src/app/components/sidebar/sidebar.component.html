@@ -1,0 +1,52 @@
+<aside *ngIf="role === 1" class="sidebar position-fixed border-end bottom-0 overflow-y-auto d-flex flex-column justify-content-between shadow-sm">
+	<div>
+		<a class="sidebar-tab p-2 d-block bi bi-house-door-fill fs-12" routerLink="home"> Home</a>
+		<!-- @if(isLogged == 'true') {
+			@if(role == 3) {
+				<a class="sidebar-tab p-2 d-block bi bi-bell-fill fs-12" routerLink="notification"> Notification</a>
+				<a class="sidebar-tab p-2 d-block bi bi-info-circle-fill fs-12" [routerLink]="['/account-detail', idCard]"> My Account</a>
+			}
+		} -->
+		@if(role == 1 || role == 2) {
+			<div class="sidebar-tab p-2 d-block bi bi-trash-fill fs-12"> Restore</div>
+		}
+		@if(role == 1 || role == 2){
+			<div>
+				<a class="sidebar-tab p-2 d-block fs-12 d-flex align-items-center justify-content-between collapsed"
+					data-bs-toggle="collapse" href="#category-tab" role="button">
+					<div class="bi bi-folder-fill fs-12"> Category</div>
+					<i class="bi bi-caret-down-fill fs-12"></i>
+				</a>
+				<div class="ms-2 collapse" id="category-tab">
+					@for (item of categoryList; track item.id) {
+					<a class="sidebar-tab p-2 d-block fs-10" href="item-list?id={{item.id}}"> {{item.name}}</a>
+					}
+				</div>
+			</div>
+			}
+	
+			
+
+		@if(role == 1 || role == 2) {
+			<div>
+				<div class="sidebar-tab p-2 d-block fs-12 d-flex align-items-center justify-content-between collapsed" data-bs-toggle="collapse" href="#role-tab" role="button">
+					<div class="bi bi-person-rolodex fs-12"> Role Assignment</div>
+					<i class="bi bi-caret-down-fill fs-12"></i>
+				</div>
+				<div class="ms-2 collapse" id="role-tab">
+					<a class="sidebar-tab p-2 d-block fs-10" [routerLink]="['/account-list', 'editor']">Editor List</a>
+					<a class="sidebar-tab p-2 d-block fs-10" [routerLink]="['/account-list', 'viewer']">Viewer List</a>
+				</div>
+			</div>
+		}
+	</div>
+	<div>
+		<hr class="m-1">
+		<div class="sidebar-tab p-2 d-block bi bi-person-fill fs-12"> About</div>
+		<div class="sidebar-tab p-2 d-block bi bi-send-fill fs-12"> Contacts</div>
+		<div class="sidebar-tab p-2 d-block bi bi-gear-fill fs-12"> Setting</div>
+		<div class="sidebar-tab p-2 d-block bi bi-question-circle-fill fs-12"> Help</div>
+		<hr class="m-1">
+		<div class="p-2 d-block fs-12">© 2024</div>
+	</div>
+</aside>

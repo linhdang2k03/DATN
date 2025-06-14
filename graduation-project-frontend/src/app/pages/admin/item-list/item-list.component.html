@@ -1,0 +1,135 @@
+<!-- Nút mở modal -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <button class="btn btn-outline-primary" (click)="showCreateForm = true">Create Product</button>
+</div>
+<app-search-bar (keywordChange)="onKeywordChange($event)" />
+
+    <!-- Filter Collapse -->
+    <div class="collapse w-100" id="filterSearch">
+      <div class="d-flex flex-column gap-3">
+        <div class="row">
+          <div class="col">
+            <label class="form-label fw-bold fs-14 text-black">Sort by</label>
+            <select class="form-select rounded-4 fs-14" [(ngModel)]="filter.sortBy">
+              <option *ngFor="let item of sortBy" [value]="item.id">{{ item.name }}</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label fw-bold fs-14 text-black">Order</label>
+            <select class="form-select rounded-4 fs-14" [(ngModel)]="filter.order">
+              <option *ngFor="let item of order" [value]="item.id">{{ item.name }}</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-outline-success align-self-end px-3 bi bi-search" (click)="applySort()">Search</button>
+      </div>
+    </div>
+<!-- Modal tạo sản phẩm -->
+<div *ngIf="showCreateForm" class="modal-overlay">
+  <div class="modal-box">
+    <h5>Create New Product</h5>
+
+    <div class="mb-2">
+      <label class="form-label">Category</label>
+      <select class="form-select" [(ngModel)]="categoryId">
+        <option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Product Name</label>
+      <input class="form-control" [(ngModel)]="newProduct.productName" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Product Image</label>
+      <input type="file" class="form-control" (change)="onImageSelected($event)" />
+    </div>
+
+    <div class="mb-2" *ngIf="previewImage">
+      <label class="form-label d-block">Preview</label>
+      <img [src]="previewImage" alt="Preview" class="img-fluid rounded border" style="max-height: 150px;" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Cost</label>
+      <input class="form-control" type="number" [(ngModel)]="newProduct.cost" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Price</label>
+      <input class="form-control" type="number" [(ngModel)]="newProduct.price" />
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Description</label>
+      <input class="form-control" [(ngModel)]="newProduct.description" />
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <button class="btn btn-secondary" (click)="showCreateForm = false">Cancel</button>
+      <button class="btn btn-primary" (click)="createProduct()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bảng danh sách sản phẩm -->
+<div class="w-100 m-0 table table-responsive">
+  <table class="w-100">
+    <thead>
+      <tr class="bg-transparent text-black">
+        <th class="p-2 text-center">#</th>
+        <th class="p-2 text-center">Name</th>
+        <th class="p-2 text-center">Image</th>
+        <th class="p-2 text-center">Cost</th>
+        <th class="p-2 text-center">Price</th>
+        <th class="p-2 text-center">Description</th>
+        <th class="p-2 text-center">Create Date</th>
+        <th class="p-2 text-center">Category</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of getLimited(); track item.id; let i = $index) {
+        <tr class="bg-transparent text-black">
+          <th class="p-2 text-center">{{ i + minList + 1 }}</th>
+          <td class="p-2 text-center">{{ item.productName }}</td>
+          <td class="p-2 text-center">
+            <img *ngIf="item.safeAvatar" [src]="item.safeAvatar" alt="Product Image"
+              style="height: 150px; max-width: 150px; object-fit: contain; border-radius: 4px;" />
+          </td>
+          <td class="p-2 text-center">{{ item.cost }}</td>
+          <td class="p-2 text-center">{{ item.price }}</td>
+          <td class="p-2 text-center">{{ item.description }}</td>
+          <td class="p-2 text-center">{{ item.startDate }}</td>
+          <td class="p-2 text-center">{{ item.category.name }}</td>
+          <td class="p-1">
+            <div class="w-100 d-flex align-items-center justify-content-end gap-3">
+              <a class="px-3 btn btn-outline-success" [routerLink]="['/detail-item', item.id]">Detail</a>
+              <button class="px-3 btn btn-outline-danger" (click)="deleteProduct(item.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr class="bg-transparent text-black">
+          <td colspan="9">
+            <div class="text-black text-center fs-100 bi bi-table"></div>
+            <div class="text-black text-center fs-20 fw-bold">Empty</div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<!-- Pagination -->
+    <div *ngIf="maxList != 0" class="d-flex justify-content-between align-items-center flex-wrap">
+      <div class="fs-12 text-black">
+        Show {{ minList + 1 }} - {{ maxList }}/{{ list.length }}
+      </div>
+      <div class="change-sheet d-flex gap-2">
+        <button class="btn btn-outline-secondary fs-12 bi bi-skip-start-fill" (click)="setMinMin()" [disabled]="isMin"></button>
+        <button class="btn btn-outline-secondary fs-12 bi bi-caret-left-fill" (click)="setMinDown()" [disabled]="isMin"></button>
+        <button class="btn btn-outline-secondary fs-12 bi bi-caret-right-fill" (click)="setMinUp()" [disabled]="isMax"></button>
+        <button class="btn btn-outline-secondary fs-12 bi bi-skip-end-fill" (click)="setMinMax()" [disabled]="isMax"></button>
+      </div>
+    </div>

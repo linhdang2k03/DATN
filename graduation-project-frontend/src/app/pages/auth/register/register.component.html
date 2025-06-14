@@ -1,0 +1,40 @@
+<div class="register-background position-fixed top-0 bottom-0 start-0 end-0"></div>
+<div class="w-100 d-flex justify-content-center align-items-center position-absolute top-50 start-50 translate-middle">
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="register d-flex flex-column border-0 rounded-4 gap-2 py-3 px-3" novalidate>
+    <h2>Register</h2>
+
+    <!-- Hiển thị thông báo lỗi toàn cục nếu có -->
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    
+    <div>
+      <label class="h6 bi bi-person-fill"> ID Card</label>
+      <input type="text" class="form-control" formControlName="idCard" placeholder="ID Card">
+      <!-- Hiển thị thông báo lỗi nếu trường 'idCard' không hợp lệ và người dùng đã tương tác -->
+      <div *ngIf="registerForm.get('idCard')?.invalid && registerForm.get('idCard')?.touched" class="text-danger">
+        Please enter a valid 12-digit ID.
+      </div>
+    </div>
+    
+    <div>
+      <label class="h6 bi bi-lock-fill"> Password</label>
+      <input type="password" class="form-control" formControlName="password" placeholder="Password">
+      <!-- Hiển thị thông báo lỗi nếu trường 'password' không hợp lệ và người dùng đã tương tác -->
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
+        Password must be at least 8 characters long, include uppercase and lowercase letters, a number, and a special character.
+      </div>
+    </div>
+    
+    <div>
+      <label class="h6 bi bi-eye-fill"> Confirm Password</label>
+      <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+      <!-- Hiển thị thông báo lỗi nếu trường 'confirmPassword' không khớp với 'password' -->
+      <div *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched" class="text-danger">
+        Passwords do not match.
+      </div>
+    </div>
+    
+    <button class="btn btn-primary w-100" type="submit" [disabled]="registerForm.invalid">Sign Up</button>
+    <a routerLink="/login" class="btn btn-success w-100">Already have an account? Sign In!</a>
+  </form>
+  <img class="register-img d-none d-md-block rounded-5 me-3" src="assets/img/sign-up.png">
+</div>

@@ -1,0 +1,47 @@
+<div class="container py-4">
+  <h4 class="fw-bold mb-4 text-black">{{ categoryName }}</h4>
+
+  <div class="row">
+    @for (item of getLimited(); track item.id) {
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100 product-card position-relative overflow-hidden">
+          <div class="text-center p-3">
+            <img [src]="getAvatar(item.avatar)" alt="Product Image"
+              class="img-fluid rounded" style="max-height: 160px; object-fit: contain;" 
+			  [routerLink]="['/item-detail']" [queryParams]="{ itemId: item.id, itemName: item.productName }"/>
+          </div>
+
+          <div class="card-body text-center p-3">
+            <h6 class="fw-semibold text-dark mb-1">{{ item.productName }}</h6>
+            <div class="text-primary fw-bold fs-5">
+              {{ item.price | currency:'USD':'symbol' }}
+            </div>
+          </div>
+
+          <div class="card-footer border-0 bg-transparent text-center pb-3">
+            <button routerLink="/shopping-cart" routerLinkActive="active"class="btn btn-outline-primary btn-sm rounded-pill w-75 shadow-sm">
+              <i class="bi bi-cart-plus-fill me-1"></i> Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="col-12 text-center text-muted">
+        <i class="bi bi-box fs-100"></i>
+        <p class="fw-bold fs-4">There are no products</p>
+      </div>
+    }
+  </div>
+
+  <div *ngIf="maxList !== 0" class="d-flex justify-content-between align-items-center mt-3">
+    <div class="fs-12 text-black">
+      Display {{ minList + 1 }} - {{ maxList }}/{{ list.length }}
+    </div>
+    <div class="change-sheet d-flex gap-2">
+      <button class="btn btn-outline-secondary fs-12 bi bi-skip-start-fill" (click)="setMinMin()" [disabled]="isMin"></button>
+      <button class="btn btn-outline-secondary fs-12 bi bi-caret-left-fill" (click)="setMinDown()" [disabled]="isMin"></button>
+      <button class="btn btn-outline-secondary fs-12 bi bi-caret-right-fill" (click)="setMinUp()" [disabled]="isMax"></button>
+      <button class="btn btn-outline-secondary fs-12 bi bi-skip-end-fill" (click)="setMinMax()" [disabled]="isMax"></button>
+    </div>
+  </div>
+</div>

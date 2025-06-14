@@ -1,0 +1,25 @@
+<div class="container py-5">
+  <h4 class="fw-bold text-primary mb-4">Search results for: "{{ searchKeyword }}"</h4>
+
+  <div *ngIf="products.length > 0; else noResults">
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4" *ngFor="let product of products">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+          <div class="text-center p-3">
+            <img [src]="product.avatar" alt="Product Image"
+                 class="img-fluid rounded" style="max-height: 160px; object-fit: contain;" 
+                 [routerLink]="['/item-detail']" [queryParams]="{ itemId: product.id, itemName: product.productName }"/>
+          </div>
+          <div class="card-body text-center">
+            <h6 class="fw-semibold text-dark mb-1">{{ product.productName }}</h6>
+            <div class="text-primary fw-bold">{{ product.price | currency:'USD':'symbol' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noResults>
+    <p class="text-center text-muted">No products match the keyword!</p>
+  </ng-template>
+</div>

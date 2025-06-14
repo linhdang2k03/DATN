@@ -1,0 +1,93 @@
+<header class="app-header d-flex justify-content-between align-items-center px-4 py-2 shadow-sm sticky-top">
+  <!-- Logo -->
+  <a class="d-flex align-items-center gap-2 text-decoration-none" routerLink="/">
+    <img src="assets/img/logo.png" alt="logo" style="width: 24px; height: 24px;" />
+    <span class="fw-bold fs-5 text-dark">Electronic store</span>
+  </a>
+
+  <!-- Middle menu (Admin only) -->
+  <ng-container *ngIf="role === 1">
+    <div class="d-flex gap-2 bg-white p-2 rounded-3 shadow-sm">
+      <a class="nav-btn" routerLink="dashboard" routerLinkActive="active-gradient" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="bi bi-clipboard-data"></i> Dashboard
+      </a>
+      <a class="nav-btn" (click)="goToAllProducts()" routerLinkActive="active-gradient">
+        <i class="bi bi-boxes"></i> Product List
+      </a>
+      <a class="nav-btn" routerLink="category-list" routerLinkActive="active-gradient">
+        <i class="bi bi-folder"></i> Category List
+      </a>
+      <a class="nav-btn" [routerLink]="['/account-list', 'ALL']" routerLinkActive="active-gradient">
+        <i class="bi bi-person-rolodex"></i> Account List
+      </a>
+    </div>
+  </ng-container>
+
+  <!-- User menu -->
+  <nav *ngIf="role !== 1" class="d-flex gap-4 user-menu">
+    <a class="nav-btn" routerLink="/" routerLinkActive="active">Home</a>
+
+    <div class="dropdown">
+      <a class="dropdown-toggle nav-btn text-decoration-none"
+         id="categoryDropdown"
+         data-bs-toggle="dropdown"
+         aria-expanded="false"
+         role="button">
+        Category
+      </a>
+
+      <ul class="dropdown-menu shadow-sm" aria-labelledby="categoryDropdown">
+        @for (item of categoryList; track item.id) {
+          <li>
+            <a class="dropdown-item" (click)="goToCategoryAndReload(item.id)">{{ item.name }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <a class="nav-btn" routerLink="/shopping-cart" routerLinkActive="active">Shopping Cart</a>
+    <a class="nav-btn" routerLink="/about-us" routerLinkActive="active">About Us</a>
+    <a class="nav-btn" routerLink="/blog" routerLinkActive="active">Blog</a>
+  </nav>
+
+  <!-- search-bar -->
+  <form *ngIf="role !== 1" class="d-flex" (ngSubmit)="onSearch()" style="max-width: 300px;">
+    <input
+      class="form-control me-2"
+      type="search"
+      placeholder="Search..."
+      aria-label="Search"
+      [(ngModel)]="searchText"
+      name="searchText"
+    />
+    <button class="btn btn-outline-success" type="submit">
+      <i class="bi bi-search"></i>
+    </button>
+  </form>
+
+
+  <!-- Right icons -->
+  <div class="d-flex gap-3 align-items-center">
+    <div class="dropdown">
+      <div class="icon-btn" data-bs-toggle="dropdown" title="Notifications">
+        <i class="bi bi-bell"></i>
+      </div>
+      <div class="dropdown-menu dropdown-menu-end p-2 shadow-sm" style="min-width: 200px;">
+        <div class="fw-bold border-bottom mb-2">Notification</div>
+        <div class="text-center text-muted">
+          <i class="bi bi-bell-fill fs-1 opacity-50"></i>
+          <p class="mb-0">No new notifications</p>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown">
+      <div class="icon-btn" data-bs-toggle="dropdown" title="Account">
+        <i class="bi bi-person"></i>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" [routerLink]="['/account-detail', idCard]"><i class="bi bi-info-circle me-2"></i>Account</a></li>
+        <li><button class="dropdown-item" (click)="onSignOut()"><i class="bi bi-box-arrow-right me-2"></i>Sign out</button></li>
+      </ul>
+    </div>
+  </div>
+</header>

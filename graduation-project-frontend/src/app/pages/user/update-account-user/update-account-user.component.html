@@ -1,0 +1,68 @@
+<div *ngIf="userDetail" class="container py-4">
+  <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <h4 class="fw-bold mb-4">Update Account</h4>
+
+    <div class="row g-4">
+      <!-- Avatar + Upload -->
+      <div class="col-md-3 text-center">
+        <div class="position-relative mx-auto rounded-circle overflow-hidden border" style="width: 140px; height: 140px;">
+          <img [src]="url" alt="User Avatar" class="w-100 h-100 object-fit-cover">
+          <label class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-50 text-white p-1 cursor-pointer fs-14">
+            Upload
+            <input class="d-none" type="file" accept="image/*" (change)="onFileChanged($event)">
+          </label>
+        </div>
+      </div>
+
+      <!-- Account Info -->
+      <div class="col-md-9">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">User ID</label>
+            <input type="text" class="form-control" [(ngModel)]="userDetail.idCard" disabled>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Full Name</label>
+            <input type="text" class="form-control" [(ngModel)]="userDetail.userName">
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Password</label>
+            <input type="password" class="form-control" [(ngModel)]="userDetail.password" autocomplete="new-password" placeholder="Enter new password (leave blank to keep current)">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Address</label>
+            <input type="text" class="form-control" [(ngModel)]="userDetail.address">
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Birth Date</label>
+            <input type="date" class="form-control" [(ngModel)]="userDetail.birthDate">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Gender</label>
+            <select class="form-select" [(ngModel)]="userDetail.gender">
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Phone Number</label>
+            <input type="text" class="form-control" [(ngModel)]="userDetail.phoneNumber">
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label fw-semibold">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="userDetail.email">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-end gap-2 mt-4">
+      <button class="btn btn-outline-secondary" (click)="cancelUpdate()">Cancel</button>
+      <button class="btn btn-primary" (click)="updateUserDetail()">Save Changes</button>
+    </div>
+  </div>
+</div>

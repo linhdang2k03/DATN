@@ -1,0 +1,9 @@
+<app-header [role]="role" />
+<app-sidebar [role]="role" />
+<main [class.full-width]="role !== 1 && role !== 2" class="main-content min-vh-100 position-relative">
+	<router-outlet />
+	@if(isLogged != 'true') {
+		<app-must-log />
+	}
+	<app-footer />
+</main>

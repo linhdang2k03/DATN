@@ -1,0 +1,86 @@
+<div class="container py-4">
+  <h4 class="fw-bold text-primary mb-4">Product information</h4>
+
+  <div class="row bg-white shadow-sm rounded-4 p-4 mb-5">
+    <div class="col-md-5 text-center">
+      <img [src]="safeAvatar" class="img-fluid rounded shadow" style="max-height: 300px; object-fit: contain;" />
+    </div>
+    <div class="col-md-7 d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="fw-bold">{{ productDetail?.productName }}</h5>
+        <p class="text-muted">{{ productDetail?.description }}</p>
+        <div class="fw-bold text-danger fs-4">
+          Price: {{ productDetail?.price | currency:'USD':'symbol' }}
+        </div>
+      </div>
+      <button routerLink="/shopping-cart" routerLinkActive="active" class="btn btn-primary mt-4 align-self-start">
+        <i class="bi bi-cart-plus-fill me-1"></i> Add to cart
+      </button>
+    </div>
+  </div>
+
+  <!-- Sản phẩm liên quan -->
+<h5 class="text-success fw-bold">Related Products</h5>
+<div class="scroll-container mb-4" #relatedScroll (mousedown)="onDragStart($event, 'related')" (mousemove)="onDragMove($event, 'related')" (mouseup)="onDragEnd('related')" (mouseleave)="onDragEnd('related')">
+  <div class="item-card" *ngFor="let item of relatedProducts">
+    <a [routerLink]="['/item-detail']" [queryParams]="{ itemId: item.id, itemName: item.productName }" class="text-decoration-none text-dark">
+      <img [src]="getAvatar(item.avatar)" alt="product" />
+      <h6 class="fw-semibold text-center mt-2">{{ item.productName }}</h6>
+      <p class="text-primary fw-bold text-center">{{ item.price | currency: 'USD':'symbol' }}</p>
+    </a>
+  </div>
+</div>
+
+<h5 class="text-info fw-bold">Products you may like</h5>
+<div class="scroll-container mb-4" #aiScroll (mousedown)="onDragStart($event, 'ai')" (mousemove)="onDragMove($event, 'ai')" (mouseup)="onDragEnd('ai')" (mouseleave)="onDragEnd('ai')">
+  <div class="item-card" *ngFor="let item of aiRecommendedProducts">
+    <a [routerLink]="['/item-detail']" [queryParams]="{ itemId: item.id, itemName: item.productName }" class="text-decoration-none text-dark">
+      <img [src]="getAvatar(item.avatar)" alt="product" />
+      <h6 class="fw-semibold text-center mt-2">{{ item.productName }}</h6>
+      <p class="text-primary fw-bold text-center">{{ item.price | currency: 'USD':'symbol' }}</p>
+    </a>
+  </div>
+</div>
+
+<h5 class="text-primary fw-bold">Comments & Reviews</h5>
+
+<!-- Form nhập bình luận -->
+<div class="bg-white p-3 rounded-3 shadow-sm mb-4">
+  <div class="mb-2">
+    <label class="form-label fw-semibold">Your review</label>
+    <select class="form-select w-auto d-inline-block" [(ngModel)]="newComment.rating">
+      <option *ngFor="let star of [1,2,3,4,5]" [value]="star">
+        {{ star }} ⭐
+      </option>
+    </select>
+  </div>
+  <textarea
+    class="form-control"
+    rows="3"
+    placeholder="Write your comment..."
+    [(ngModel)]="newComment.content">
+  </textarea>
+  <div class="mt-2 text-end">
+    <button class="btn btn-success btn-sm px-4" (click)="submitComment()">
+      Submit
+    </button>
+  </div>
+</div>
+
+<!-- Danh sách bình luận -->
+  <div *ngIf="comments.length > 0; else emptyComments">
+    <div *ngFor="let cmt of comments" class="border rounded-3 bg-white p-3 mb-3 shadow-sm">
+      <div class="fw-bold">
+        {{ cmt.username }} 
+        <span class="text-warning"> {{ '⭐'.repeat(cmt.rating) }} </span>
+      </div>
+      <div class="text-muted fs-12">{{ cmt.createdAt }}</div>
+      <div class="mt-1">{{ cmt.content }}</div>
+    </div>
+  </div>
+  <ng-template #emptyComments>
+    <p class="text-muted">No comments yet</p>
+  </ng-template>
+
+</div>
+

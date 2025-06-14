@@ -1,0 +1,22 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/linhDB
+    driver-class-name: org.postgresql.Driver
+    username: danglinh
+    password: 123456
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+api:
+  prefix: /api
+
+jwt:
+  expiration: 2592000 # 30 ngay = 30 * 24 * 60 * 60
+  secretKey: 56dca8ea13ccd722fd3cbe9e3b50ee1bebf63ca25253612b0563d8360bdedef4
